@@ -1,6 +1,11 @@
 const imgContainer = document.getElementById('images'),
       input = document.getElementById('term'),
-      loader = document.getElementById('loader');
+      loader = document.getElementById('loader')
+
+const setWindowHeight = () => {
+    let winH = window.innerHeight - 54
+    imgContainer.style.height = winH + 'px'
+}
 
 /**
  * Function createElementes
@@ -12,7 +17,7 @@ const createElements = images => {
     images.forEach( image => {
 
         // Create an img element for each image
-        let img = document.createElement('img');
+        let img = document.createElement('img')
         img.setAttribute('src', image.urls.full)
         
         // Append the image to the container
@@ -27,48 +32,55 @@ const createElements = images => {
  */
 const makeRequest = term => {
     // Show the loading overlay
-    loader.style.display = 'block';
+    loader.style.display = 'block'
 
-    let httpRequest = new XMLHttpRequest();
+    let httpRequest = new XMLHttpRequest()
 
     if (!httpRequest) {
-        loader.style.display = 'none';
-        alert('Cannot create an XMLHTTP instance');
-        return false;
+        loader.style.display = 'none'
+        alert('Cannot create an XMLHTTP instance')
+        return false
     }
 
     // API url and parameters
-    const queryUrl = 'https://api.unsplash.com/search/photos/?client_id=efd85f096277736ec45e1c6c627f9e9a2fe91f4532d1e9d330d6d80352111707&page=1&per_page=5&query=' + term;
+    const queryUrl = 'https://api.unsplash.com/search/photos/?client_id=efd85f096277736ec45e1c6c627f9e9a2fe91f4532d1e9d330d6d80352111707&page=1&per_page=25&query=' + term
 
-    httpRequest.open('GET', queryUrl);
-    httpRequest.send();
+    httpRequest.open('GET', queryUrl)
+    httpRequest.send()
 
     httpRequest.onreadystatechange = e => {
         if (httpRequest.readyState === XMLHttpRequest.DONE){
             if(httpRequest.status === 200) {
-                imgContainer.innerHTML = '';
-                let data = JSON.parse(httpRequest.responseText);
-                createElements(data.results);
-                loader.style.display = 'none';
+                imgContainer.innerHTML = ''
+                let data = JSON.parse(httpRequest.responseText)
+                createElements(data.results)
+                loader.style.display = 'none'
             } else {
-                loader.style.display = 'none';
-                alert('There was a problem processing the request.');
+                loader.style.display = 'none'
+                alert('There was a problem processing the request.')
             }
         }
     }
 }
 
 /* Form submit */
-document.forms[0].onsubmit = function(e) {
-    e.preventDefault(); //Prevent form submition
+document.forms[0].addEventListener('submit', (e) => {
+    e.preventDefault() //Prevent form submition
     
     // Get the value from the search input and then clear it
-    const term = input.value.trim();
+    const term = input.value.trim()
     input.value = ''
 
     // Return if the search input is empty
-    if(!term) return;
+    if(!term) return
 
     // Make the request passing the search term
     makeRequest(term)
-}
+}, false)
+
+/**
+ * Set images container height on load and resize
+ */
+window.addEventListener('resize', setWindowHeight, false)
+window.addEventListener('load', setWindowHeight, false)
+

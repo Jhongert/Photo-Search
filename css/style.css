@@ -46,6 +46,7 @@ button:hover {
     margin-top: 54px;
     padding: 0 1rem;
     overflow: auto;
+    text-align: center;
 }
 
 #images img {
