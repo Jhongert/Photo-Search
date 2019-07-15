@@ -1,6 +1,7 @@
 const imgContainer = document.getElementById('images'),
       input = document.getElementById('term'),
-      loader = document.getElementById('loader')
+      loader = document.getElementById('loader'),
+      searchBox = document.getElementById('search-box')
 
 let httpRequest,
     winH
@@ -85,13 +86,18 @@ const handleResponse = () => {
  */
 const search = e => {
     e.preventDefault() //Prevent form submition
-    
+
     // Get the value from the search input and then clear it
     const term = input.value.trim()
     input.value = ''
 
     // Return if the search input is empty
     if(!term) return
+
+    // change class name to search-box and focus the input element 
+    searchBox.classList.remove('search-box-center')
+    searchBox.classList.add('search-box-top')
+    input.focus();
 
     // Make the request passing the search term
     makeRequest(term)
