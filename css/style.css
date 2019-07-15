@@ -22,12 +22,13 @@ body {
     background-color: #fff;
     border: 1px solid #ced4da;
     border-radius: .25rem;
+    outline: none;
 }
 
 button {
     display: inline-block;
     font-weight: 400;
-    color: #b3b9c0;
+    color: #495057;
     text-align: center;
     border: 1px solid #ced4da;
     padding: .375rem .75rem;
@@ -36,7 +37,6 @@ button {
     border-radius: .25rem;
 }
 button:hover {
-    color: #495057;
     background-color: #eceef0;
     border-color: #e4e8eb;
 }
